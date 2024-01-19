@@ -3,6 +3,8 @@ package com.example.c0923h1spring.service;
 import com.example.c0923h1spring.model.Employee;
 import com.example.c0923h1spring.repository.IEmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,10 @@ public class EmployeeService {
     }
     public Iterable<Employee> findAll(){
         return employeeRepository.findAll();
+    }
+
+    public Page<Employee> findAllWithSearchAndPageable(String search, Pageable pageable) {
+        return employeeRepository.findAllByNameContainingOrEmailContaining(search,search, pageable);
     }
 
     public void delete(Long id) {

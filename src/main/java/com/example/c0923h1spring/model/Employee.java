@@ -22,7 +22,7 @@ public class Employee {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, columnDefinition = "LONGTEXT")
     private String email;
 
     private LocalDate dob;
@@ -30,7 +30,7 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private EGender gender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
 
 }

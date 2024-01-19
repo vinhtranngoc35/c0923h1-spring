@@ -8,7 +8,7 @@
 <div class="container">
     <h1>Create Employee</h1>
     <h4 class="text-danger" th:text="${error}"></h4>
-    <form action="#" th:action="@{/create}" th:object="${employee}" method="post">
+    <form action="#" th:action="@{/employees/create}" th:object="${employee}" method="post">
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
             <input type="text" class="form-control" id="name" th:field="*{name}">

@@ -2,8 +2,13 @@ package com.example.c0923h1spring.controller;
 
 import com.example.c0923h1spring.model.Employee;
 import com.example.c0923h1spring.model.enumration.EGender;
+import com.example.c0923h1spring.repository.IEmployeeRepository;
 import com.example.c0923h1spring.service.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,11 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final IEmployeeRepository iEmployeeRepository;
 
     @GetMapping
-    public ModelAndView index() {
-        var employees = employeeService.findAll();
-        return new ModelAndView("employee/index", "employees", employees);
+    public ModelAndView index(@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                              @RequestParam(defaultValue = "")String search) {
+        Page<Employee> employees = employeeService.findAllWithSearchAndPageable(search,pageable);
+        var model = new ModelAndView("employee/index", "employees", employees);
+        model.addObject("search", search);
+        return model;
     }
 
     @GetMapping("create")
